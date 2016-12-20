@@ -10,7 +10,7 @@ body {
   height: 470px;
   margin: 50px auto;
   padding: 50px 10px 20px 10px;
-  background-color: black;
+  background-color: rgba(86,86,86,1);
   border-radius: 10px;
   border: 2px solid gray;
 }

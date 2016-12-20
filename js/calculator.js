@@ -122,7 +122,6 @@ var view = {
   },
   renderCurrentNum: function() {
     var currentNum = controller.getCurrentNum();
-    console.log(currentNum);
     this.$screen.html(currentNum);
   },
   renderOperator: function() {

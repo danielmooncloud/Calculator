@@ -36,10 +36,14 @@ var controller = {
 	number: function() {
 		var number = $(this).val();
 		controller.currentNum += number;
+		view.render(controller.currentNum);
 	},
 	pushCurrentNum: function() {
 		model.input.push(this.currentNum);
 		this.currentNum = '';
+	},
+	pushCurrentOper: function() {
+		model.input.push(this.currentOper);
 	},
 	decimal: function() {
 		if(controller.currentNum.indexOf('.') === -1) {
@@ -51,7 +55,20 @@ var controller = {
 	},
 	operator: function() {
 	    if(controller.timeForOperator()) {
-	    	if()
+	    	controller.currentOper = $(this).val();
+
+	    	if(controller.firstEntry()) {
+	    		controller.pushCurrentNum();
+	    		//calculate result
+	    		controller.pushCurrentOper();
+	    		view.render(controller.currentOper);
+	    	
+	    	} else if(controller.secondEntry()) {
+	    		controller.pushCurrentNum();
+	    		//calculate result
+	    		controller.pushCurrentOper();
+	    		view.render(controller.currentOper);
+	    	}
 	    }
 	},
     timeForOperator: function() {
@@ -73,7 +90,7 @@ var controller = {
 		return false;
 	},
 	hasResult: function() {
-		if(model.input.length === 1 && !controller.currentOper) {
+		if(model.input.length === 1) {
 			return true;
 		}
 		return false;

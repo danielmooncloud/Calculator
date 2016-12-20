@@ -57,18 +57,13 @@ var controller = {
 	    if(controller.timeForOperator()) {
 	    	controller.currentOper = $(this).val();
 
-	    	if(controller.firstEntry()) {
+	    	if(controller.firstEntry() || controller.secondEntry()) {
 	    		controller.pushCurrentNum();
 	    		//calculate result
 	    		controller.pushCurrentOper();
 	    		view.render(controller.currentOper);
 	    	
-	    	} else if(controller.secondEntry()) {
-	    		controller.pushCurrentNum();
-	    		//calculate result
-	    		controller.pushCurrentOper();
-	    		view.render(controller.currentOper);
-	    	}
+	    	} 
 	    }
 	},
     timeForOperator: function() {
@@ -94,6 +89,11 @@ var controller = {
 			return true;
 		}
 		return false;
+	},
+	calculate: function() {
+		if(model.input.length === 3) {
+			
+		}
 	}  
 }
 

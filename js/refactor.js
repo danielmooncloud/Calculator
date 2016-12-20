@@ -39,7 +39,7 @@ var controller = {
 		view.render(controller.currentNum);
 	},
 	pushCurrentNum: function() {
-		model.input.push(this.currentNum);
+		model.input.push(this.currentNum * 10000);
 		this.currentNum = '';
 	},
 	pushCurrentOper: function() {
@@ -56,18 +56,17 @@ var controller = {
 	operator: function() {
 	    if(controller.timeForOperator()) {
 	    	controller.currentOper = $(this).val();
-
+	    	
 	    	if(controller.firstEntry() || controller.secondEntry()) {
 	    		controller.pushCurrentNum();
-	    		//calculate result
-	    		controller.pushCurrentOper();
 	    		view.render(controller.currentOper);
-	    	
+	    		controller.calculate(model.input);
+	    		controller.pushCurrentOper();    	
 	    	} 
 	    }
 	},
     timeForOperator: function() {
-	    if(this.currentOper || (!this.currentNum && !model.input.length) || this.currentNum === '.') {
+	    if((!this.currentNum && !model.input.length) || this.currentNum === '.') {
 	    	return false;
 	    } 
 	    return true;
@@ -90,9 +89,12 @@ var controller = {
 		}
 		return false;
 	},
-	calculate: function() {
-		if(model.input.length === 3) {
-			
+	calculate: function(arr) {
+		if(arr.length === 3) {
+			console.log(arr);
+			var result = this.operations[arr[1]](arr[0], arr[2]);
+			view.render(result);
+			return result;
 		}
 	}  
 }

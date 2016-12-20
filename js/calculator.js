@@ -39,27 +39,28 @@ var controller = {
     view.renderCurrentNum();
   },
   operator: function() {
-    var operation = $(this).val();
-    if(model.currentOper !== '' || (model.currentNum === '' && model.input.length === 0) || model.currentNum === '.') {
-    return false;
-    }
-    model.currentOper = (operation);
-    view.renderOperator();
-    if(model.input.length === 0 || model.input.length === 2) {
-    model.input.push(parseInt(model.currentNum * 10000));
-    }
-    if(model.input.length === 3) {
-    model.result = controller.calculate(model.input);
-    model.input = [];
-    model.input.push(model.result * 10000);
-    view.renderResult();
-    }
-    model.input.push(operation); 
-    model.currentNum = ''; 
-    controller.decimal = false;
+    if(this.timeForOperator()) {
+      var operation = $(this).val();
+      model.currentOper = operation;
+      view.renderOperator();
+      
+      if(this.timeToPush()) {
+        this.pushCurrentNum();
+      } else if(this.timeToCalculate()) {
+        this.pushCurrentNum();
+        this.equals();
+      }
+      
+      model.input.push(operation); 
+      model.currentNum = ''; 
+      controller.decimal = false;
+    }  
   },
   getCurrentNum: function() {
     return model.currentNum;
+  },
+  pushCurrentNum: function() {
+    model.input.push(parseInt(this.getCurrentNum() * 10000));
   },
   getCurrentOper: function() {
     return model.currentOper;
@@ -102,14 +103,32 @@ var controller = {
     model.input.pop();
     this.decimal = false;
     view.renderClear();
-  }
+  },
+  timeForOperator: function() {
+    if(model.currentOper || (!this.getCurrentNum() && !model.input.length) || this.getCurrentNum() === '.') {
+      return false;
+    } 
+    return true;
+  },
+  timeToPush: function() {
+    if(model.input.length === 0 && this.getCurrentNum()) {
+      return true;
+    }
+    return false;
+  },
+  timeToCalculate: function() {
+    if(model.input.length === 2 && this.getCurrentNum()) {
+      return true;
+    }
+    return false;
+  },
 }
 
 var view = {
   init: function() {
     this.cacheDom();
-    this.renderCurrentNum();
     this.bind();
+    this.renderCurrentNum();
   },
   cacheDom: function() {
     this.$int = $('.int');

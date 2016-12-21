@@ -1,6 +1,33 @@
-body {
-  background-color: rgb(169, 189, 229);
+/* Font Styles*/
+
+
+
+/* Base Styles */
+
+
+
+
+
+/* Main Styles*/
+
+
+
+
+
+.screen {
+  text-align: right;
+  font-family: Orbitron;
+  font-size: 24px;
+  text-wrap: none;
+  overflow: hidden;  
 }
+
+
+
+
+
+
+/* Layout Styles*/
 
 .main {
   display: flex;
@@ -10,16 +37,12 @@ body {
   height: 470px;
   margin: 50px auto;
   padding: 50px 10px 20px 10px;
-  background-color: rgba(86,86,86,1);
-  border-radius: 10px;
-  border: 2px solid gray;
 }
 
 .row {
   display: flex;
   flex-direction: row;
-  flex-grow: 1;
-  flex-basis: 0;  
+  flex: 1 0;
   margin: 5px;  
 }
 
@@ -27,35 +50,15 @@ body {
   display: flex;
   flex-direction: row;
   margin-bottom: 20px;
-  text-align: center;
   padding: 0px;
 }
 
 .screen {
-  flex-basis: 0;
-  flex-grow: 1;
-  background-color: rgb(195, 194, 171);
-  border-radius: 5px; 
-  text-align: right;
-  font-family: Orbitron;
-  font-size: 24px;
-  text-wrap: none;
-  overflow: hidden;  
+  flex: 1 0;
   margin: 0px;
   padding: 15px 10px 15px 0px;
 }
 
-button {
-  flex-grow: 1;
-  flex-basis: 0; 
-  padding: 0;
-  margin: 0px 5px 0px 5px;
-  border-radius: 5px;
-}
-
-button:focus {
- outline: none;
-}
 
 #fourth {
   flex-grow: 2.2;
@@ -98,3 +101,14 @@ button:focus {
   flex-grow: 1; 
   flex-basis: 0;
 }
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css?family=Orbitron");
+.main, .row, #top, #fourth, #left, .upper, .lower, #right {
+  display: flex; }
+
+.row, .screen, .upper, .lower, #decimal, #right, button {
+  flex: 1 0; }
+
+/* colors */
+/* paths */
+/* stack */
+body {
+  background-color: #a9bde5; }
+
+.main {
+  background-color: #565656;
+  border-radius: 10px;
+  border: 2px solid grey; }
+
+.screen {
+  background-color: #c3c2ab;
+  border-radius: 5px; }
+
+button {
+  border-radius: 5px; }
+  button:focus {
+    outline: none; }
+
+#top {
+  text-align: center; }
+
+.screen {
+  font-family: "Orbitron", Helvetica, Arial, sans-serif;
+  text-align: right;
+  font-size: 24px;
+  text-wrap: none;
+  overflow: hidden; }
+
+.main {
+  flex-direction: column;
+  justify-content: center;
+  width: 300px;
+  height: 470px;
+  margin: 50px auto;
+  padding: 50px 10px 20px 10px; }
+
+.row {
+  flex-direction: row;
+  margin: 5px; }
+
+#top {
+  flex-direction: row;
+  margin-bottom: 20px;
+  padding: 0px; }
+
+.screen {
+  margin: 0px;
+  padding: 15px 10px 15px 0px; }
+
+#fourth {
+  flex-grow: 2.2; }
+
+#left {
+  flex: 3 0;
+  flex-direction: column; }
+
+.upper {
+  margin-bottom: 5px; }
+
+.lower {
+  margin-top: 5px; }
+
+#zero {
+  flex: 2.3 0; }
+
+button {
+  padding: 0;
+  margin: 0px 5px 0px 5px; }
+
+/*# sourceMappingURL=application.css.map */

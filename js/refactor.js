@@ -35,6 +35,9 @@ var controller = {
   	},
 	number: function() {
 		var number = $(this).val();
+		if(controller.hasResult()) {
+			model.input = [];
+		}
 		controller.currentNum += number;
 		view.render(controller.currentNum);
 	},
@@ -48,6 +51,7 @@ var controller = {
 	decimal: function() {
 		if(controller.currentNum.indexOf('.') === -1) {
 			controller.currentNum += '.';
+			view.render(controller.currentNum);
 		}
 	},
 	clear: function() {
@@ -75,22 +79,28 @@ var controller = {
 	    return true;
 	},
 	firstEntry: function() {
-		if(model.input.length === 0 && controller.currentNum) {
+		if(model.input.length === 0 && this.isValidNumber(this.currentNum)) {
 			return true;
 		}
 		return false;
 	},
 	secondEntry: function() {
-		if(model.input.length === 2 && controller.currentNum) {
+		if(model.input.length === 2 && this.isValidNumber(this.currentNum)) {
 			return true;
 		}
 		return false;
 	},
 	hasResult: function() {
-		if(model.input.length === 1) {
+		if(model.input.length === 1 && typeof model.input[0] === 'number') {
 			return true;
 		}
 		return false;
+	},
+	equals: function() {
+		if(controller.secondEntry()) {
+			controller.pushCurrentNum();
+			controller.calculate(model.input);
+		}
 	},
 	calculate: function(arr) {
 		if(arr.length === 3) {
@@ -101,6 +111,12 @@ var controller = {
 			this.pushCurrentNum();
 			//console.log(model.input);
 		}
+	},
+	isValidNumber: function(num) {
+		if(num !== '' && num !== '.') {
+			return true;
+		}
+		return false;
 	}  
 }
 
@@ -125,9 +141,12 @@ const view = {
     	}); 
     	this.$decimal.click(function() {
     		controller.decimal.call(this);
-    	})
+    	});
     	this.$oper.click(function() {
     		controller.operator.call(this);
+    	});
+    	this.$equal.click(function() {
+    		controller.equals();
     	})
   	},
   	render: function(value) {

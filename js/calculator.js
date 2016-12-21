@@ -70,7 +70,7 @@ var controller = {
         }
       }
   },
-    timeForOperator: function() {
+  timeForOperator: function() {
       if((!this.currentNum && !model.input.length) || this.currentNum === '.') {
         return false;
       } 
@@ -141,7 +141,7 @@ const view = {
       this.$equal = $('.equal');
       this.$screen = $('.screen');
     },
-    bind: function() {
+  bind: function() {
       this.$int.click(function() {
         controller.number.call(this);
       }); 
@@ -161,7 +161,7 @@ const view = {
         controller.clearAll();
       })
     },
-    render: function(value) {
+  render: function(value) {
       this.$screen.html(value);
     }
 }

@@ -62,7 +62,10 @@ var controller = {
 	    		view.render(controller.currentOper);
 	    		controller.calculate(model.input);
 	    		controller.pushCurrentOper();    	
-	    	} 
+	    	} else if(controller.hasResult()) {
+	    		controller.pushCurrentOper();
+	    		view.render(controller.currentOper);
+	    	}
 	    }
 	},
     timeForOperator: function() {
@@ -91,10 +94,12 @@ var controller = {
 	},
 	calculate: function(arr) {
 		if(arr.length === 3) {
-			console.log(arr);
-			var result = this.operations[arr[1]](arr[0], arr[2]);
-			view.render(result);
-			return result;
+			//console.log(arr);
+			this.currentNum = this.operations[arr[1]](arr[0], arr[2]);
+			model.input = [];
+			view.render(this.currentNum);
+			this.pushCurrentNum();
+			//console.log(model.input);
 		}
 	}  
 }

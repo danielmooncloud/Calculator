@@ -1,183 +1,177 @@
 (function() {
+'use strict';
 
-var model = {
-  input: [],
-  currentNum: '',
-  currentOper: '',
-  result: ''  
+const model = {
+  init: function() {
+    this.input = [];
+  },
+  input: []
 }
+
 
 var controller = {
   init: function() {
-    view.init();
-    this.decimal = false;
+    model.init();
+    view.init(); 
+    view.render(0);
   },
+  currentNum: '',
+  currentOper: '',
   operations:  {
-    '+': function(a, b) {
-      return (a + b)/10000; 
-    },
-    '-': function(a, b) {
-      return (a - b)/10000; 
-    }, 
-    '*': function(a,b) {
-      return (a * b)/(Math.pow(10,8));
-    },
-    '/': function(a,b) {
-      return (a / b);
-    }
-  },
-  number: function() { 
-    var number = $(this).val();
-    if(controller.decimal && $(this).val() === '.') {
-      return false;
-    }
-    if(typeof model.input[model.input.length - 1] === 'number') {
-     model.input = [];
-    }
-    model.currentNum += number;
-    model.currentOper = '';
-    view.renderCurrentNum();
-  },
-  operator: function() {
-    if(this.timeForOperator()) {
-      var operation = $(this).val();
-      model.currentOper = operation;
-      view.renderOperator();
-      
-      if(this.timeToPush()) {
-        this.pushCurrentNum();
-      } else if(this.timeToCalculate()) {
-        this.pushCurrentNum();
-        this.equals();
+      '+': function(a, b) {
+        return (a + b)/10000; 
+      },
+      '-': function(a, b) {
+        return (a - b)/10000; 
+      }, 
+      '*': function(a,b) {
+        return (a * b)/(Math.pow(10,8));
+      },
+      '/': function(a,b) {
+        return (a / b);
       }
-      
-      model.input.push(operation); 
-      model.currentNum = ''; 
-      controller.decimal = false;
-    }  
-  },
-  getCurrentNum: function() {
-    return model.currentNum;
+    },
+  number: function() {
+    var number = $(this).val();
+    if(controller.hasResult()) {
+      model.input = [];
+    }
+    controller.currentNum += number;
+    view.render(controller.currentNum);
   },
   pushCurrentNum: function() {
-    model.input.push(parseInt(this.getCurrentNum() * 10000));
+    model.input.push(this.currentNum * 10000);
+    this.currentNum = '';
   },
-  getCurrentOper: function() {
-    return model.currentOper;
+  pushCurrentOper: function() {
+    model.input.push(this.currentOper);
   },
-  getInput: function() {
-    return model.input;
-  },
-  decimalCheck: function() {
-    this.decimal = true;
-  },
-  equals: function() {
-      
-    if(model.currentNum === '' || model.currentNum === '.' || model.input.length !== 2) {
-      model.currentNum = '';
-      return false;
-    } 
-      model.input.push(parseInt(model.currentNum*10000));
-      model.result = this.calculate(model.input);
-      model.input = [];
-      model.input.push(model.result * 10000);
-      model.currentNum = '';
-      this.decimal = false;
-      view.renderResult();
-  },
-  getResult: function() {
-    return model.result;
-  },
-  calculate: function(arr) {
-    return this.operations[arr[1]](arr[0], arr[2]);
-  },
-  clearAll: function() {
-    model.currentNum = '';
-    model.input = [];
-    model.currentOper = '';
-    this.decimal = false;
-    view.renderClear();    
+  decimal: function() {
+    if(controller.currentNum.indexOf('.') === -1) {
+      controller.currentNum += '.';
+      view.render(controller.currentNum);
+    }
   },
   clear: function() {
-    model.currentNum = '';
-    model.input.pop();
-    this.decimal = false;
-    view.renderClear();
+    this.currentNum = '';
   },
-  timeForOperator: function() {
-    if(model.currentOper || (!this.getCurrentNum() && !model.input.length) || this.getCurrentNum() === '.') {
-      return false;
-    } 
-    return true;
+  operator: function() {
+      if(controller.timeForOperator()) {
+        controller.currentOper = $(this).val();
+        
+        if(controller.firstEntry() || controller.secondEntry()) {
+          controller.pushCurrentNum();
+          view.render(controller.currentOper);
+          controller.calculate(model.input);
+          controller.pushCurrentOper();     
+        } else if(controller.hasResult()) {
+          controller.pushCurrentOper();
+          view.render(controller.currentOper);
+        }
+      }
   },
-  timeToPush: function() {
-    if(model.input.length === 0 && this.getCurrentNum()) {
+    timeForOperator: function() {
+      if((!this.currentNum && !model.input.length) || this.currentNum === '.') {
+        return false;
+      } 
+      return true;
+  },
+  firstEntry: function() {
+    if(model.input.length === 0 && this.isValidNumber(this.currentNum)) {
       return true;
     }
     return false;
   },
-  timeToCalculate: function() {
-    if(model.input.length === 2 && this.getCurrentNum()) {
+  secondEntry: function() {
+    if(model.input.length === 2 && this.isValidNumber(this.currentNum)) {
       return true;
     }
     return false;
   },
+  hasResult: function() {
+    if(model.input.length === 1 && typeof model.input[0] === 'number') {
+      return true;
+    }
+    return false;
+  },
+  equals: function() {
+    if(controller.secondEntry()) {
+      controller.pushCurrentNum();
+      controller.calculate(model.input);
+    }
+  },
+  calculate: function(arr) {
+    if(arr.length === 3) {
+      this.currentNum = this.operations[arr[1]](arr[0], arr[2]);
+      model.input = [];
+      view.render(this.currentNum);
+      this.pushCurrentNum();
+    }
+  },
+  isValidNumber: function(num) {
+    if(num !== '' && num !== '.') {
+      return true;
+    }
+    return false;
+  },
+  clear: function() {
+    controller.currentNum = '';
+    view.render(0);
+  },
+  clearAll: function() {
+    controller.currentNum = '';
+    controller.currentOper = '';
+    model.input = [];
+    view.render(0);
+  }  
 }
 
-var view = {
+
+const view = {
   init: function() {
     this.cacheDom();
     this.bind();
-    this.renderCurrentNum();
   },
   cacheDom: function() {
-    this.$int = $('.int');
-    this.$decimal = $('#decimal');
-    this.$oper = $('.oper');
-    this.$clearAll = $('.clearall');
-    this.$clear = $('.clear');
-    this.$equal = $('.equal');
-    this.$screen = $('.screen');
-  },
-  renderCurrentNum: function() {
-    var currentNum = controller.getCurrentNum();
-    this.$screen.html(currentNum);
-  },
-  renderOperator: function() {
-    var operator = controller.getCurrentOper();
-    this.$screen.html(operator);
-  },
-  renderResult: function() {    
-    var result = controller.getResult();
-    this.$screen.html(result);  
-  },
-  renderClear: function() {
-    this.$screen.html(0);
-  },
-  bind: function() {
-    this.$int.click(function() {
-      controller.number.call(this);
-    }); 
-    this.$oper.click(function() {
-      controller.operator.call(this);
-    });
-    this.$decimal.click(function() {
-      controller.decimalCheck();
-    });
-    this.$equal.click(function() {
-      controller.equals();
-    });
-    this.$clearAll.click(function() {
-      controller.clearAll();
-    });
-    this.$clear.click(function() {
-      controller.clear();
-    })
-  }
+      this.$int = $('.int');
+      this.$decimal = $('#decimal');
+      this.$oper = $('.oper');
+      this.$clearAll = $('.clearall');
+      this.$clear = $('.clear');
+      this.$equal = $('.equal');
+      this.$screen = $('.screen');
+    },
+    bind: function() {
+      this.$int.click(function() {
+        controller.number.call(this);
+      }); 
+      this.$decimal.click(function() {
+        controller.decimal.call(this);
+      });
+      this.$oper.click(function() {
+        controller.operator.call(this);
+      });
+      this.$equal.click(function() {
+        controller.equals();
+      });
+      this.$clear.click(function() {
+        controller.clear();
+      });
+      this.$clearAll.click(function() {
+        controller.clearAll();
+      })
+    },
+    render: function(value) {
+      this.$screen.html(value);
+    }
 }
 
+
+
+
+
 $(document).ready(function() {
-controller.init();
+  controller.init();
 });
 
-})();
+}())

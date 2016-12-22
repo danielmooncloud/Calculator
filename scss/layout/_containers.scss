@@ -1,7 +1,5 @@
 .main {
-  @extend %flex;
-  flex-direction: column;
-  justify-content: center;
+  @include flexbox(column, center);
   width: 300px;
   height: 470px;
   margin: 50px auto;
@@ -9,65 +7,61 @@
 }
 
 .row {
-  @extend %flex;
-  @extend %grow;
-  flex-direction: row;
+  @include flexbox();
+  @include flex(1, 0);
   margin: 5px;  
 }
 
 #top {
-  @extend %flex;
-  flex-direction: row;
+  @include flexbox();
   margin-bottom: 20px;
   padding: 0px;
 }
 
 .screen {
-  @extend %grow;
+  @include flex(1, 0);
   margin: 0px;
   padding: 15px 10px 15px 0px;
 }
 
 
 #fourth {
-  @extend %flex;
-  flex-grow: 2.2;
+  @include flexbox();
+  @include flex(2.2, 0);
 }
 
 #left {
-  @extend %flex;
-  flex: 3 0;
-  flex-direction: column;
-  
+  @include flexbox(column);
+  @include flex(3, 0);
 }
 
 .upper {
-  @extend %flex;
-  @extend %grow;
+  @include flexbox();
+  @include flex(1, 0);
   margin-bottom: 5px;
 }
 
 .lower {
-  @extend %flex;
-  @extend %grow;
+  @include flexbox();
+  @include flex(1, 0);
   margin-top: 5px;
 }
 
 #zero {
-  flex: 2.3 0;
+  @include flex(2.3, 0);
 }
 
 #decimal {
-  @extend %grow;
+  @include flex(1, 0);
 }
 
 #right {
-  @extend %flex;
-  @extend %grow;
+  @include flexbox();
+  @include flex(1, 0);
 }
 
 button {
-  @extend %grow;
+  @include flex(1, 0);
   padding: 0;
   margin: 0px 5px 0px 5px;
 }

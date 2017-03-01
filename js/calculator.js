@@ -52,9 +52,6 @@ var controller = {
       view.render(controller.currentNum);
     }
   },
-  clear: function() {
-    this.currentNum = '';
-  },
   operator: function() {
       if(controller.timeForOperator()) {
         controller.currentOper = $(this).val();
@@ -165,9 +162,6 @@ const view = {
       this.$screen.html(value);
     }
 }
-
-
-
 
 
 $(document).ready(function() {

@@ -1,3 +1,5 @@
+require("../scss/application.scss");
+
 
 $(document).ready(function() {
 
@@ -86,7 +88,7 @@ function Computer() {
 
 
     this.decimal = function() {
-        if(input.indexOf('.') === -1) {
+        if(currentNum.indexOf('.') === -1) {
             currentNum += '.';
             view.render(currentNum);
         }

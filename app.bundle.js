@@ -63,11 +63,143 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function Computer(view) {
+    var input = [];
+    var currentNum = '';
+    var currentOper = '';
+    this.view = view;
+
+    var operations = {
+        '+': function _(a, b) {
+            return (a + b) / 10000;
+        },
+        '-': function _(a, b) {
+            return (a - b) / 10000;
+        },
+        '*': function _(a, b) {
+            return a * b / Math.pow(10, 8);
+        },
+        '/': function _(a, b) {
+            return a / b;
+        }
+    };
+
+    var pushCurrentNum = function pushCurrentNum() {
+        input.push(currentNum * 10000);
+        currentNum = '';
+    };
+
+    var pushCurrentOper = function pushCurrentOper() {
+        input.push(currentOper);
+    };
+
+    var timeForOperator = function timeForOperator() {
+        if (!currentNum && !input.length || currentNum === '.') {
+            return false;
+        }
+        return true;
+    };
+
+    var firstEntry = function firstEntry() {
+        if (input.length === 0 && isValidNumber(currentNum)) {
+            return true;
+        }
+        return false;
+    };
+
+    var secondEntry = function secondEntry() {
+        if (input.length === 2 && isValidNumber(currentNum)) {
+            return true;
+        }
+        return false;
+    };
+
+    var hasResult = function hasResult() {
+        if (input.length === 1 && typeof input[0] === 'number') {
+            return true;
+        }
+        return false;
+    };
+
+    var calculate = function calculate(arr) {
+        if (arr.length === 3) {
+            currentNum = operations[arr[1]](arr[0], arr[2]);
+            input = [];
+            this.view.render(currentNum);
+            pushCurrentNum();
+        }
+    };
+
+    var isValidNumber = function isValidNumber(num) {
+        if (num !== '' && num !== '.') {
+            return true;
+        }
+        return false;
+    };
+
+    this.number = function (val) {
+        var number = val;
+        if (hasResult()) {
+            input = [];
+        }
+        currentNum += number;
+        this.view.render(currentNum);
+    };
+
+    this.decimal = function () {
+        if (currentNum.indexOf('.') === -1) {
+            currentNum += '.';
+            this.view.render(currentNum);
+        }
+    };
+
+    this.operator = function (val) {
+        if (timeForOperator()) {
+            currentOper = val;
+            if (firstEntry() || secondEntry()) {
+                pushCurrentNum();
+                this.view.render(currentOper);
+                calculate(input);
+                pushCurrentOper();
+            } else if (hasResult()) {
+                pushCurrentOper();
+                this.view.render(currentOper);
+            }
+        }
+    };
+
+    this.equals = function () {
+        if (secondEntry()) {
+            pushCurrentNum();
+            calculate(input);
+        }
+    };
+
+    this.clear = function () {
+        currentNum = '';
+        this.view.render(0);
+    };
+
+    this.clearAll = function () {
+        currentNum = '';
+        currentOper = '';
+        input = [];
+        this.view.render(0);
+    };
+};
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -9863,145 +9995,22 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 });
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
-__webpack_require__(1);
+__webpack_require__(2);
+var Computer = __webpack_require__(0);
 
 $(document).ready(function () {
-
-    function Computer() {
-        var input = [];
-        var currentNum = '';
-        var currentOper = '';
-
-        var operations = {
-            '+': function _(a, b) {
-                return (a + b) / 10000;
-            },
-            '-': function _(a, b) {
-                return (a - b) / 10000;
-            },
-            '*': function _(a, b) {
-                return a * b / Math.pow(10, 8);
-            },
-            '/': function _(a, b) {
-                return a / b;
-            }
-        };
-
-        var pushCurrentNum = function pushCurrentNum() {
-            input.push(currentNum * 10000);
-            currentNum = '';
-        };
-
-        var pushCurrentOper = function pushCurrentOper() {
-            input.push(currentOper);
-        };
-
-        var timeForOperator = function timeForOperator() {
-            if (!currentNum && !input.length || currentNum === '.') {
-                return false;
-            }
-            return true;
-        };
-
-        var firstEntry = function firstEntry() {
-            if (input.length === 0 && isValidNumber(currentNum)) {
-                return true;
-            }
-            return false;
-        };
-
-        var secondEntry = function secondEntry() {
-            if (input.length === 2 && isValidNumber(currentNum)) {
-                return true;
-            }
-            return false;
-        };
-
-        var hasResult = function hasResult() {
-            if (input.length === 1 && typeof input[0] === 'number') {
-                return true;
-            }
-            return false;
-        };
-
-        var calculate = function calculate(arr) {
-            if (arr.length === 3) {
-                currentNum = operations[arr[1]](arr[0], arr[2]);
-                input = [];
-                view.render(currentNum);
-                pushCurrentNum();
-            }
-        };
-
-        var isValidNumber = function isValidNumber(num) {
-            if (num !== '' && num !== '.') {
-                return true;
-            }
-            return false;
-        };
-
-        this.number = function (val) {
-            var number = val;
-            if (hasResult()) {
-                input = [];
-            }
-            currentNum += number;
-            view.render(currentNum);
-        };
-
-        this.decimal = function () {
-            if (input.indexOf('.') === -1) {
-                currentNum += '.';
-                view.render(currentNum);
-            }
-        };
-
-        this.operator = function (val) {
-            if (timeForOperator()) {
-                currentOper = val;
-                if (firstEntry() || secondEntry()) {
-                    pushCurrentNum();
-                    view.render(currentOper);
-                    calculate(input);
-                    pushCurrentOper();
-                } else if (hasResult()) {
-                    pushCurrentOper();
-                    view.render(currentOper);
-                }
-            }
-        };
-
-        this.equals = function () {
-            if (secondEntry()) {
-                pushCurrentNum();
-                calculate(input);
-            }
-        };
-
-        this.clear = function () {
-            currentNum = '';
-            view.render(0);
-        };
-
-        this.clearAll = function () {
-            currentNum = '';
-            currentOper = '';
-            input = [];
-            view.render(0);
-        };
-    }
 
     var view = {
         init: function init() {
@@ -10054,11 +10063,11 @@ $(document).ready(function () {
         }
     };
 
-    var computer = new Computer();
+    var computer = new Computer(view);
 
     view.init();
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ })
 /******/ ]);

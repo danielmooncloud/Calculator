@@ -1,13 +1,9 @@
-require("../scss/application.scss");
-
-
-$(document).ready(function() {
-
-
-function Computer() {
+module.exports = function Computer(view) {
     var input = [];
     var currentNum = '';
     var currentOper = '';
+    this.view = view;
+    var computer = this;
 
     var operations = {
         '+': function(a, b) {
@@ -65,7 +61,7 @@ function Computer() {
         if(arr.length === 3) {
             currentNum = operations[arr[1]](arr[0], arr[2]);
             input = [];
-            view.render(currentNum);
+            computer.view.render(currentNum);
             pushCurrentNum();
         }
     };
@@ -83,14 +79,14 @@ function Computer() {
             input = [];
         }
         currentNum += number;
-        view.render(currentNum);
+        this.view.render(currentNum);
     };
 
 
     this.decimal = function() {
         if(currentNum.indexOf('.') === -1) {
             currentNum += '.';
-            view.render(currentNum);
+            this.view.render(currentNum);
         }
     };
 
@@ -99,12 +95,12 @@ function Computer() {
             currentOper = val;
             if(firstEntry() || secondEntry()) {
                 pushCurrentNum();
-                view.render(currentOper);
+                this.view.render(currentOper);
                 calculate(input);
                 pushCurrentOper();     
             } else if(hasResult()) {
                 pushCurrentOper();
-                view.render(currentOper);
+                this.view.render(currentOper);
             }
         }
     };
@@ -118,76 +114,17 @@ function Computer() {
 
     this.clear = function() {
         currentNum = '';
-        view.render(0);
+        this.view.render(0);
     };
 
     this.clearAll = function() {
         currentNum = '';
         currentOper = '';
         input = [];
-        view.render(0);
+        this.view.render(0);
     };  
 }
 
-
-
-const view = {
-    init: function() {
-        this.cacheDom();
-        this.bind();
-        this.render(0);
-    },
-  
-    cacheDom: function() {
-        this.$main = $(".main");
-        this.$int = this.$main.find('.int');
-        this.$decimal = this.$main.find('#decimal');
-        this.$oper = this.$main.find('.oper');
-        this.$clearAll = this.$main.find('.clearall');
-        this.$clear = this.$main.find('.clear');
-        this.$equal = this.$main.find('.equal');
-        this.$screen = this.$main.find('.screen');
-    },
- 
-    bind: function() {
-        this.$int.click(function() {
-            var val = $(this).val();
-            computer.number(val);
-        }); 
-      
-        this.$decimal.click(function() {
-            computer.decimal();
-        });
-      
-        this.$oper.click(function() {
-            var val = $(this).val();
-            computer.operator(val);
-        });
-      
-        this.$equal.click(function() {
-            computer.equals();
-        });
-      
-        this.$clear.click(function() {
-            computer.clear();
-        });
-      
-        this.$clearAll.click(function() {
-            computer.clearAll();
-        })
-    },
-  
-    render: function(value) {
-        this.$screen.html(value);
-    }
-}
-
-
-var computer = new Computer();
-
-view.init();
-
-})
 
 
 

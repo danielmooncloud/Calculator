@@ -78,6 +78,7 @@ module.exports = function Computer(view) {
     var currentNum = '';
     var currentOper = '';
     this.view = view;
+    var computer = this;
 
     var operations = {
         '+': function _(a, b) {
@@ -135,7 +136,7 @@ module.exports = function Computer(view) {
         if (arr.length === 3) {
             currentNum = operations[arr[1]](arr[0], arr[2]);
             input = [];
-            this.view.render(currentNum);
+            computer.view.render(currentNum);
             pushCurrentNum();
         }
     };
@@ -10064,7 +10065,6 @@ $(document).ready(function () {
     };
 
     var computer = new Computer(view);
-
     view.init();
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))

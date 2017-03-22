@@ -56,7 +56,7 @@ $(document).ready(function() {
 		}
 	};
 
-	var computer = new Computer(view);
-	view.init();
+	var computer = new Computer();
+	computer.init(view);
 
 });

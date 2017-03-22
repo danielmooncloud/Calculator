@@ -1,6 +1,6 @@
 export default class Computer {
-	constructor(view) {
-		this.view = view;
+	constructor() {
+		this._view;
 		this.input = [];
 		this.currentNum = "";
 		this.currentOper = "";
@@ -22,6 +22,19 @@ export default class Computer {
 				return (a / b);
 			}
 		};
+	}
+
+	get view() {
+		return this._view;
+	}
+
+	set view(view) {
+		this._view = view;
+	}
+
+	init(view) {
+		this._view = view;
+		this._view.init();
 	}
 
 	pushCurrentNum() {

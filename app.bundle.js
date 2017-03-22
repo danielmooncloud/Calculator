@@ -73,131 +73,165 @@
 "use strict";
 
 
-module.exports = function Computer(view) {
-    var input = [];
-    var currentNum = '';
-    var currentOper = '';
-    this.view = view;
-    var computer = this;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-    var operations = {
-        '+': function _(a, b) {
-            return (a + b) / 10000;
-        },
-        '-': function _(a, b) {
-            return (a - b) / 10000;
-        },
-        '*': function _(a, b) {
-            return a * b / Math.pow(10, 8);
-        },
-        '/': function _(a, b) {
-            return a / b;
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Computer = function () {
+    function Computer(view) {
+        _classCallCheck(this, Computer);
+
+        this.view = view;
+        this.input = [];
+        this.currentNum = '';
+        this.currentOper = '';
+        this.operations = {
+
+            '+': function _(a, b) {
+                return (a + b) / 10000;
+            },
+
+            '-': function _(a, b) {
+                return (a - b) / 10000;
+            },
+
+            '*': function _(a, b) {
+                return a * b / Math.pow(10, 8);
+            },
+
+            '/': function _(a, b) {
+                return a / b;
+            }
+        };
+    }
+
+    _createClass(Computer, [{
+        key: 'pushCurrentNum',
+        value: function pushCurrentNum() {
+            this.input.push(this.currentNum * 10000);
+            this.currentNum = '';
         }
-    };
-
-    var pushCurrentNum = function pushCurrentNum() {
-        input.push(currentNum * 10000);
-        currentNum = '';
-    };
-
-    var pushCurrentOper = function pushCurrentOper() {
-        input.push(currentOper);
-    };
-
-    var timeForOperator = function timeForOperator() {
-        if (!currentNum && !input.length || currentNum === '.') {
+    }, {
+        key: 'pushCurrentOper',
+        value: function pushCurrentOper() {
+            this.input.push(this.currentOper);
+        }
+    }, {
+        key: 'timeForOperator',
+        value: function timeForOperator() {
+            if (!this.currentNum && !this.input.length || this.currentNum === '.') {
+                return false;
+            }
+            return true;
+        }
+    }, {
+        key: 'firstEntry',
+        value: function firstEntry() {
+            if (this.input.length === 0 && this.isValidNumber(this.currentNum)) {
+                return true;
+            }
             return false;
         }
-        return true;
-    };
-
-    var firstEntry = function firstEntry() {
-        if (input.length === 0 && isValidNumber(currentNum)) {
-            return true;
+    }, {
+        key: 'secondEntry',
+        value: function secondEntry() {
+            if (this.input.length === 2 && this.isValidNumber(this.currentNum)) {
+                return true;
+            }
+            return false;
         }
-        return false;
-    };
-
-    var secondEntry = function secondEntry() {
-        if (input.length === 2 && isValidNumber(currentNum)) {
-            return true;
+    }, {
+        key: 'hasResult',
+        value: function hasResult() {
+            if (this.input.length === 1 && typeof this.input[0] === 'number') {
+                return true;
+            }
+            return false;
         }
-        return false;
-    };
-
-    var hasResult = function hasResult() {
-        if (input.length === 1 && typeof input[0] === 'number') {
-            return true;
-        }
-        return false;
-    };
-
-    var calculate = function calculate(arr) {
-        if (arr.length === 3) {
-            currentNum = operations[arr[1]](arr[0], arr[2]);
-            input = [];
-            computer.view.render(currentNum);
-            pushCurrentNum();
-        }
-    };
-
-    var isValidNumber = function isValidNumber(num) {
-        if (num !== '' && num !== '.') {
-            return true;
-        }
-        return false;
-    };
-
-    this.number = function (val) {
-        var number = val;
-        if (hasResult()) {
-            input = [];
-        }
-        currentNum += number;
-        this.view.render(currentNum);
-    };
-
-    this.decimal = function () {
-        if (currentNum.indexOf('.') === -1) {
-            currentNum += '.';
-            this.view.render(currentNum);
-        }
-    };
-
-    this.operator = function (val) {
-        if (timeForOperator()) {
-            currentOper = val;
-            if (firstEntry() || secondEntry()) {
-                pushCurrentNum();
-                this.view.render(currentOper);
-                calculate(input);
-                pushCurrentOper();
-            } else if (hasResult()) {
-                pushCurrentOper();
-                this.view.render(currentOper);
+    }, {
+        key: 'calculate',
+        value: function calculate(arr) {
+            if (arr.length === 3) {
+                this.currentNum = this.operations[arr[1]](arr[0], arr[2]);
+                this.input = [];
+                this.view.render(this.currentNum);
+                this.pushCurrentNum();
             }
         }
-    };
-
-    this.equals = function () {
-        if (secondEntry()) {
-            pushCurrentNum();
-            calculate(input);
+    }, {
+        key: 'isValidNumber',
+        value: function isValidNumber(num) {
+            if (num !== '' && num !== '.') {
+                return true;
+            }
+            return false;
         }
-    };
+    }, {
+        key: 'number',
+        value: function number(val) {
+            var number = val;
+            if (this.hasResult()) {
+                this.input = [];
+            }
+            this.currentNum += number;
+            this.view.render(this.currentNum);
+        }
+    }, {
+        key: 'decimal',
+        value: function decimal() {
+            if (this.currentNum.indexOf('.') === -1) {
+                this.currentNum += '.';
+                this.view.render(this.currentNum);
+            }
+        }
+    }, {
+        key: 'operator',
+        value: function operator(val) {
+            if (this.timeForOperator()) {
+                this.currentOper = val;
+                if (this.firstEntry() || this.secondEntry()) {
+                    this.pushCurrentNum();
+                    this.view.render(this.currentOper);
+                    this.calculate(this.input);
+                    this.pushCurrentOper();
+                } else if (this.hasResult()) {
+                    this.pushCurrentOper();
+                    this.view.render(this.currentOper);
+                }
+            }
+        }
+    }, {
+        key: 'equals',
+        value: function equals() {
+            if (this.secondEntry()) {
+                this.pushCurrentNum();
+                this.calculate(this.input);
+            }
+        }
+    }, {
+        key: 'clear',
+        value: function clear() {
+            this.currentNum = '';
+            this.view.render(0);
+        }
+    }, {
+        key: 'clearAll',
+        value: function clearAll() {
+            this.currentNum = '';
+            this.currentOper = '';
+            this.input = [];
+            this.view.render(0);
+        }
+    }]);
 
-    this.clear = function () {
-        currentNum = '';
-        this.view.render(0);
-    };
+    return Computer;
+}();
 
-    this.clearAll = function () {
-        currentNum = '';
-        currentOper = '';
-        input = [];
-        this.view.render(0);
-    };
-};
+exports.default = Computer;
 
 /***/ }),
 /* 1 */
@@ -10009,7 +10043,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /* WEBPACK VAR INJECTION */(function($) {
 
 __webpack_require__(2);
-var Computer = __webpack_require__(0);
+
+var _computer = __webpack_require__(0);
+
+var _computer2 = _interopRequireDefault(_computer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 $(document).ready(function () {
 
@@ -10019,7 +10058,6 @@ $(document).ready(function () {
             this.bind();
             this.render(0);
         },
-
         cacheDom: function cacheDom() {
             this.$main = $(".main");
             this.$int = this.$main.find('.int');
@@ -10030,10 +10068,9 @@ $(document).ready(function () {
             this.$equal = this.$main.find('.equal');
             this.$screen = this.$main.find('.screen');
         },
-
         bind: function bind() {
-            this.$int.click(function () {
-                var val = $(this).val();
+            this.$int.click(function (e) {
+                var val = e.target.innerText;
                 computer.number(val);
             });
 
@@ -10041,8 +10078,8 @@ $(document).ready(function () {
                 computer.decimal();
             });
 
-            this.$oper.click(function () {
-                var val = $(this).val();
+            this.$oper.click(function (e) {
+                var val = e.target.innerText;
                 computer.operator(val);
             });
 
@@ -10058,13 +10095,12 @@ $(document).ready(function () {
                 computer.clearAll();
             });
         },
-
         render: function render(value) {
             this.$screen.html(value);
         }
     };
 
-    var computer = new Computer(view);
+    var computer = new _computer2.default(view);
     view.init();
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))

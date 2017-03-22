@@ -1,17 +1,18 @@
-require("../scss/application.scss");
-var Computer = require("./computer");
+import "../scss/application.scss";
+import Computer from "./computer";
 
 
 $(document).ready(function() {
 
     const view = {
-        init: function() {
+        
+        init() {
             this.cacheDom();
             this.bind();
             this.render(0);
         },
       
-        cacheDom: function() {
+        cacheDom() {
             this.$main = $(".main");
             this.$int = this.$main.find('.int');
             this.$decimal = this.$main.find('#decimal');
@@ -22,35 +23,35 @@ $(document).ready(function() {
             this.$screen = this.$main.find('.screen');
         },
      
-        bind: function() {
-            this.$int.click(function() {
-                var val = $(this).val();
+        bind() {
+            this.$int.click((e) => {
+                const val = e.target.innerText;
                 computer.number(val);
             }); 
           
-            this.$decimal.click(function() {
+            this.$decimal.click(() => {
                 computer.decimal();
             });
           
-            this.$oper.click(function() {
-                var val = $(this).val();
+            this.$oper.click((e) => {
+                const val = e.target.innerText;
                 computer.operator(val);
             });
           
-            this.$equal.click(function() {
+            this.$equal.click(() => {
                 computer.equals();
             });
           
-            this.$clear.click(function() {
+            this.$clear.click(() => {
                 computer.clear();
             });
           
-            this.$clearAll.click(function() {
+            this.$clearAll.click(() => {
                 computer.clearAll();
             })
         },
       
-        render: function(value) {
+        render(value) {
             this.$screen.html(value);
         }
     }

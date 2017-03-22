@@ -1,126 +1,130 @@
-module.exports = function Computer(view) {
-    var input = [];
-    var currentNum = '';
-    var currentOper = '';
-    this.view = view;
-    var computer = this;
+export default class Computer {
+    constructor(view) {
+        this.view = view;
+        this.input = [];
+        this.currentNum = '';
+        this.currentOper = '';
+        this.operations = {
 
-    var operations = {
-        '+': function(a, b) {
-            return (a + b)/10000; 
-        },
-        '-': function(a, b) {
-            return (a - b)/10000; 
-        }, 
-        '*': function(a,b) {
-            return (a * b)/(Math.pow(10,8));
-        },
-        '/': function(a,b) {
-            return (a / b);
-        }
+            '+': (a, b) => {
+                return (a + b)/10000; 
+            },
+
+            '-': (a, b) => {
+                return (a - b)/10000; 
+            }, 
+
+            '*': (a,b) => {
+                return (a * b)/(Math.pow(10,8));
+            },
+
+            '/': (a,b) => {
+                return (a / b);
+            }
+        };
+    };
+    
+    pushCurrentNum() {
+        this.input.push(this.currentNum * 10000);
+        this.currentNum = '';
     };
 
-    var pushCurrentNum = function() {
-        input.push(currentNum * 10000);
-        currentNum = '';
+    pushCurrentOper() {
+        this.input.push(this.currentOper);
     };
 
-    var pushCurrentOper = function() {
-        input.push(currentOper);
-    };
-
-    var timeForOperator = function() {
-        if((!currentNum && !input.length) || currentNum === '.') {
+    timeForOperator() {
+        if((!this.currentNum && !this.input.length) || this.currentNum === '.') {
             return false;
         } 
         return true;
     };
 
-    var firstEntry = function() {
-        if(input.length === 0 && isValidNumber(currentNum)) {
+    firstEntry() {
+        if(this.input.length === 0 && this.isValidNumber(this.currentNum)) {
             return true;
         }
         return false;
     };
 
-    var secondEntry = function() {
-        if(input.length === 2 && isValidNumber(currentNum)) {
+    secondEntry() {
+        if(this.input.length === 2 && this.isValidNumber(this.currentNum)) {
             return true;
         }
         return false;
     };
 
-    var hasResult = function() {
-        if(input.length === 1 && typeof input[0] === 'number') {
+    hasResult() {
+        if(this.input.length === 1 && typeof this.input[0] === 'number') {
             return true;
         }
         return false;
     };
 
-    var calculate = function(arr) {
+    calculate(arr) {
         if(arr.length === 3) {
-            currentNum = operations[arr[1]](arr[0], arr[2]);
-            input = [];
-            computer.view.render(currentNum);
-            pushCurrentNum();
+            this.currentNum = this.operations[arr[1]](arr[0], arr[2]);
+            this.input = [];
+            this.view.render(this.currentNum);
+            this.pushCurrentNum();
         }
     };
 
-    var isValidNumber = function(num) {
+    isValidNumber(num) {
         if(num !== '' && num !== '.') {
             return true;
         }
         return false;
     };
     
-    this.number = function(val) {
+    number(val) {
         var number = val;
-        if(hasResult()) {
-            input = [];
+        if(this.hasResult()) {
+            this.input = [];
         }
-        currentNum += number;
-        this.view.render(currentNum);
+        this.currentNum += number;
+        this.view.render(this.currentNum);
     };
 
 
-    this.decimal = function() {
-        if(currentNum.indexOf('.') === -1) {
-            currentNum += '.';
-            this.view.render(currentNum);
+    decimal() {
+        if(this.currentNum.indexOf('.') === -1) {
+            this.currentNum += '.';
+            this.view.render(this.currentNum);
         }
     };
 
-    this.operator = function(val) {
-        if(timeForOperator()) {
-            currentOper = val;
-            if(firstEntry() || secondEntry()) {
-                pushCurrentNum();
-                this.view.render(currentOper);
-                calculate(input);
-                pushCurrentOper();     
-            } else if(hasResult()) {
-                pushCurrentOper();
-                this.view.render(currentOper);
+    operator(val) {
+        if(this.timeForOperator()) {
+            this.currentOper = val;
+            if(this.firstEntry() || this.secondEntry()) {
+                this.pushCurrentNum();
+                this.view.render(this.currentOper);
+                this.calculate(this.input);
+                this.pushCurrentOper();     
+            } else if(this.hasResult()) {
+                this.pushCurrentOper();
+                this.view.render(this.currentOper);
             }
         }
     };
 
-    this.equals = function() {
-        if(secondEntry()) {
-            pushCurrentNum();
-            calculate(input);
+    equals() {
+        if(this.secondEntry()) {
+            this.pushCurrentNum();
+            this.calculate(this.input);
         }
     };
 
-    this.clear = function() {
-        currentNum = '';
+    clear() {
+        this.currentNum = '';
         this.view.render(0);
     };
 
-    this.clearAll = function() {
-        currentNum = '';
-        currentOper = '';
-        input = [];
+    clearAll() {
+        this.currentNum = '';
+        this.currentOper = '';
+        this.input = [];
         this.view.render(0);
     };  
 }

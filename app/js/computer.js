@@ -33,7 +33,7 @@ export default class Computer {
 	}
 
 	init(view) {
-		this._view = view;
+		this.view = view;
 		this._view.init();
 	}
 

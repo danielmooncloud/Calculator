@@ -47,10 +47,10 @@ export default class Computer {
 	}
 
 	timeForOperator() {
-		if((!this.currentNum && !this.input.length) || this.currentNum === ".") {
-			return false;
+		if((this.currentNum || this.input.length) && this.currentNum !== ".") {
+			return true;
 		} 
-		return true;
+		return false;
 	}
 
 	firstEntry() {
@@ -80,22 +80,21 @@ export default class Computer {
 			this.input = [];
 			this.view.render(this.currentNum);
 			this.pushCurrentNum();
-		}
+		} 
 	}
 
 	isValidNumber(num) {
-		if(num !== "" && num !== ".") {
-			return true;
+		if(num === "" || num === ".") {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	number(val) {
-		var number = val;
 		if(this.hasResult()) {
 			this.input = [];
 		}
-		this.currentNum += number;
+		this.currentNum += val;
 		this.view.render(this.currentNum);
 	}
 

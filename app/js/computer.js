@@ -47,31 +47,19 @@ export default class Computer {
 	}
 
 	timeForOperator() {
-		if((this.currentNum || this.input.length) && this.currentNum !== ".") {
-			return true;
-		} 
-		return false;
+		return (this.currentNum || this.input.length) && this.currentNum !== ".";
 	}
 
 	firstEntry() {
-		if(this.input.length === 0 && this.isValidNumber(this.currentNum)) {
-			return true;
-		}
-		return false;
+		return this.input.length === 0 && this.isValidNumber(this.currentNum);
 	}
 
 	secondEntry() {
-		if(this.input.length === 2 && this.isValidNumber(this.currentNum)) {
-			return true;
-		}
-		return false;
+		return this.input.length === 2 && this.isValidNumber(this.currentNum); 
 	}
 
 	hasResult() {
-		if(this.input.length === 1 && typeof this.input[0] === "number") {
-			return true;
-		}
-		return false;
+		return this.input.length === 1 && typeof this.input[0] === "number";
 	}
 
 	calculate(arr) {
@@ -84,16 +72,11 @@ export default class Computer {
 	}
 
 	isValidNumber(num) {
-		if(num === "" || num === ".") {
-			return false;
-		}
-		return true;
+		return num !== "" && num !== ".";
 	}
 
 	number(val) {
-		if(this.hasResult()) {
-			this.input = [];
-		}
+		if(this.hasResult()) this.input = [];
 		this.currentNum += val;
 		this.view.render(this.currentNum);
 	}

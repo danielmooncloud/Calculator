@@ -6,9 +6,9 @@
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -82,10 +82,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Computer = function () {
-	function Computer(view) {
+	function Computer() {
 		_classCallCheck(this, Computer);
 
-		this.view = view;
+		this._view;
 		this.input = [];
 		this.currentNum = "";
 		this.currentOper = "";
@@ -110,6 +110,12 @@ var Computer = function () {
 	}
 
 	_createClass(Computer, [{
+		key: "init",
+		value: function init(view) {
+			this.view = view;
+			this._view.init();
+		}
+	}, {
 		key: "pushCurrentNum",
 		value: function pushCurrentNum() {
 			this.input.push(this.currentNum * 10000);
@@ -123,34 +129,22 @@ var Computer = function () {
 	}, {
 		key: "timeForOperator",
 		value: function timeForOperator() {
-			if (!this.currentNum && !this.input.length || this.currentNum === ".") {
-				return false;
-			}
-			return true;
+			return (this.currentNum || this.input.length) && this.currentNum !== ".";
 		}
 	}, {
 		key: "firstEntry",
 		value: function firstEntry() {
-			if (this.input.length === 0 && this.isValidNumber(this.currentNum)) {
-				return true;
-			}
-			return false;
+			return this.input.length === 0 && this.isValidNumber(this.currentNum);
 		}
 	}, {
 		key: "secondEntry",
 		value: function secondEntry() {
-			if (this.input.length === 2 && this.isValidNumber(this.currentNum)) {
-				return true;
-			}
-			return false;
+			return this.input.length === 2 && this.isValidNumber(this.currentNum);
 		}
 	}, {
 		key: "hasResult",
 		value: function hasResult() {
-			if (this.input.length === 1 && typeof this.input[0] === "number") {
-				return true;
-			}
-			return false;
+			return this.input.length === 1 && typeof this.input[0] === "number";
 		}
 	}, {
 		key: "calculate",
@@ -165,19 +159,13 @@ var Computer = function () {
 	}, {
 		key: "isValidNumber",
 		value: function isValidNumber(num) {
-			if (num !== "" && num !== ".") {
-				return true;
-			}
-			return false;
+			return num !== "" && num !== ".";
 		}
 	}, {
 		key: "number",
 		value: function number(val) {
-			var number = val;
-			if (this.hasResult()) {
-				this.input = [];
-			}
-			this.currentNum += number;
+			if (this.hasResult()) this.input = [];
+			this.currentNum += val;
 			this.view.render(this.currentNum);
 		}
 	}, {
@@ -225,6 +213,14 @@ var Computer = function () {
 			this.currentOper = "";
 			this.input = [];
 			this.view.render(0);
+		}
+	}, {
+		key: "view",
+		get: function get() {
+			return this._view;
+		},
+		set: function set(view) {
+			this._view = view;
 		}
 	}]);
 
@@ -10067,7 +10063,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	return jQuery;
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
 
 /***/ }),
 /* 2 */
@@ -10077,36 +10073,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function (module) {
-	if (!module.webpackPolyfill) {
-		module.deprecate = function () {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if (!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function get() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function get() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10140,29 +10106,22 @@ $(document).ready(function () {
 		},
 		bind: function bind() {
 			this.$int.click(function (e) {
-				var val = e.target.innerText;
-				computer.number(val);
+				return computer.number(e.target.innerText);
 			});
-
 			this.$decimal.click(function () {
-				computer.decimal();
+				return computer.decimal();
 			});
-
 			this.$oper.click(function (e) {
-				var val = e.target.innerText;
-				computer.operator(val);
+				return computer.operator(e.target.innerText);
 			});
-
 			this.$equal.click(function () {
-				computer.equals();
+				return computer.equals();
 			});
-
 			this.$clear.click(function () {
-				computer.clear();
+				return computer.clear();
 			});
-
 			this.$clearAll.click(function () {
-				computer.clearAll();
+				return computer.clearAll();
 			});
 		},
 		render: function render(value) {
@@ -10170,10 +10129,40 @@ $(document).ready(function () {
 		}
 	};
 
-	var computer = new _computer2.default(view);
-	view.init();
+	var computer = new _computer2.default();
+	computer.init(view);
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (module) {
+	if (!module.webpackPolyfill) {
+		module.deprecate = function () {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function get() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function get() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
 
 /***/ })
 /******/ ]);

@@ -24,31 +24,12 @@ $(document).ready(function() {
 		},
 
 		bind() {
-			this.$int.click((e) => {
-				const val = e.target.innerText;
-				computer.number(val);
-			}); 
-
-			this.$decimal.click(() => {
-				computer.decimal();
-			});
-
-			this.$oper.click((e) => {
-				const val = e.target.innerText;
-				computer.operator(val);
-			});
-
-			this.$equal.click(() => {
-				computer.equals();
-			});
-
-			this.$clear.click(() => {
-				computer.clear();
-			});
-
-			this.$clearAll.click(() => {
-				computer.clearAll();
-			});
+			this.$int.click((e) => computer.number(e.target.innerText)); 
+			this.$decimal.click(() => computer.decimal());
+			this.$oper.click((e) => computer.operator(e.target.innerText));
+			this.$equal.click(() => computer.equals());
+			this.$clear.click(() => computer.clear());
+			this.$clearAll.click(() => computer.clearAll());
 		},
 
 		render(value) {

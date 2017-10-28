@@ -1,57 +1,62 @@
 <!DOCTYPE html>
 
 <head>
-	<meta charset = "utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Calculator</title>
-  <link rel="icon" href="images/grid.png?v=2"></link>
-	
-	<link rel="stylesheet" href="main.css">
+    <meta charset = "utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Calculator</title>
+    <link rel="icon" href="images/grid.png?v=2"></link>
+
+    <link rel="stylesheet" href="main.css">
 
 </head>
 <body>
-	<div class = 'main'>
-    <div class = "row" id="top">
-      <h1 class='screen'></h1>
-     </div>
-    <div class = "row" id = "first">
-      <button class='clearall'>AC</button>
-      <button class='clear'>CE</button>
-      <button class = 'oper' value = "/">/</button>
-      <button class = 'oper' value = "*">*</button>
-     </div>
-    <div class = "row" id = "second">
-      <button class = 'int' value = "7">7</button>
-      <button class = 'int' value = "8">8</button>
-      <button class = 'int' value = "9">9</button>
-      <button class = 'oper' value = "-">-</button>
-     </div>
-    <div class = "row" id = "third">
-      <button class = 'int' value = "4">4</button>
-      <button class = 'int' value = "5">5</button>
-      <button class = 'int' value = "6">6</button>
-      <button class = 'oper' value = "+">+</button>
-    </div>
-    <div class = "row" id = "fourth">
-      <div class = "col" id="left">
-        <div class = "upper">
-          <button class = 'int' value = "1">1</button>
-          <button class = 'int' value = "2">2</button>
-          <button class = 'int' value = "3">3</button>    
-        </div>   
-        <div class = "lower">
-          <button class = 'int' id = 'zero' value = "0">0</button>
-          <button id = 'decimal' value = ".">.</button>   
+    <div class = 'main'>
+        <div class = "row" id="top">
+            <h1 class='screen'></h1>
         </div>
-      </div>
-      
-      <div class = "col" id="right">
-        <button class = 'equal' id = 'equal' value = "=">=</button>
-      </div>
-    </div>
-  
-  </div>
+    
+        <div class = "row" id = "first">
+            <button class='clearall'>AC</button>
+            <button class='clear'>CE</button>
+            <button class = 'oper' value = "/">/</button>
+            <button class = 'oper' value = "*">*</button>
+        </div>
+    
+        <div class = "row" id = "second">
+            <button class = 'int' value = "7">7</button>
+            <button class = 'int' value = "8">8</button>
+            <button class = 'int' value = "9">9</button>
+            <button class = 'oper' value = "-">-</button>
+        </div>
+    
+        <div class = "row" id = "third">
+            <button class = 'int' value = "4">4</button>
+            <button class = 'int' value = "5">5</button>
+            <button class = 'int' value = "6">6</button>
+            <button class = 'oper' value = "+">+</button>
+        </div>
+    
+        <div class = "row" id = "fourth">
+            <div class = "col" id="left">
+                <div class = "upper">
+                    <button class = 'int' value = "1">1</button>
+                    <button class = 'int' value = "2">2</button>
+                    <button class = 'int' value = "3">3</button>    
+                </div>   
+                
+                <div class = "lower">
+                    <button class = 'int' id = 'zero' value = "0">0</button>
+                    <button id = 'decimal' value = ".">.</button>   
+                </div>
+            </div>
 
-  <script src="app.bundle.js"></script>
+            <div class = "col" id="right">
+                <button class = 'equal' id = 'equal' value = "=">=</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="app.bundle.js"></script>
   
 </body>

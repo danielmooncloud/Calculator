@@ -1,0 +1,110 @@
+@include font-face('Orbitron');
+
+body {
+	background-color: $light-blue;
+
+	.main {
+		background-color: $charcoal;
+		border-radius: 10px;
+		border: 2px solid $grey;
+		@include flexbox(column, center);
+		width: 300px;
+		height: 470px;
+		margin: 50px auto;
+		padding: 50px 10px 20px 10px;
+
+		#top {
+			@include flexbox();
+			margin-bottom: 20px;
+			padding: 0px;
+			text-align: center; 
+
+			.screen {
+				@include flex(1, 0);
+				margin: 0px;
+				padding: 20px 10px 15px 0px;
+				background-color: $dull-yellow;
+				border-radius: 5px;
+				font-family: $stack-orbitron;
+				text-align: right;
+				font-size: 28px;
+				text-wrap: none;
+				overflow: hidden;  
+				color: dimgrey;
+			}
+		}
+
+		#fourth {
+			@include flexbox();
+			@include flex(2.2, 0);
+
+			#left {
+				@include flexbox(column);
+				@include flex(3, 0);
+
+				.upper {
+					@include flexbox();
+					@include flex(1, 0);
+					margin-bottom: 5px;
+				}
+
+				.lower {
+					@include flexbox();
+					@include flex(1, 0);
+					margin-top: 5px;
+
+					#zero {
+						@include flex(2.3, 0);
+					}
+
+					#decimal {
+						@include flex(1, 0);
+					}
+				}
+			}
+
+			#right {
+				@include flexbox();
+				@include flex(1, 0);
+			}
+		}
+
+		.row {
+			@include flexbox();
+			@include flex(1, 0);
+			margin: 5px;
+
+			button {
+				@include flex(1, 0);
+				padding: 0;
+				margin: 0px 5px 0px 5px;
+				border-radius: 5px;
+				font-size: 14px;
+				&:focus {
+					outline: none;
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

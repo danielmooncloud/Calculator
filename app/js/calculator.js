@@ -31,22 +31,30 @@ export default class Calculator {
 			this.firstNum += ".";
 			return this.firstNum;
 		} else {
-			return null;
+			return this.operator ? this.secondNum : this.firstNum;
 		}
 	}
 
 	enterOperator(val) {
 		//Return early if we don't have a valid first value
-		if(this.firstNum === "" || this.firstNum === ".") return null;
-		if(!this.secondNum && !this.operator) {
+		if(this.firstNum === "" || this.firstNum === ".") {
+			return null;
+		//set operator value if one is not set and we already have a first number
+		} else if(!this.secondNum && !this.operator) {
 			this.operator = val;
 			return this.operator;
+		//if we already have first and second nums and an operator calculate a result first which will also
+		//		- set the first number to that result, 
+		//		- clear the secondnum
+		//then set the operator to the value supplied
+		//return the result of the calculation
 		} else if(this.secondNum !== "" && this.secondNum !== ".") {
 			const result = this.calculate();
 			this.operator = val;
 			return result;
+		} else {
+			return null;
 		}
-		return null;
 	}
 
 

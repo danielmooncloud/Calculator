@@ -63,174 +63,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Computer = function () {
-	function Computer() {
-		_classCallCheck(this, Computer);
-
-		this._view;
-		this.input = [];
-		this.currentNum = "";
-		this.currentOper = "";
-		this.operations = {
-
-			"+": function _(a, b) {
-				return (a + b) / 10000;
-			},
-
-			"-": function _(a, b) {
-				return (a - b) / 10000;
-			},
-
-			"*": function _(a, b) {
-				return a * b / Math.pow(10, 8);
-			},
-
-			"/": function _(a, b) {
-				return a / b;
-			}
-		};
-	}
-
-	_createClass(Computer, [{
-		key: "init",
-		value: function init(view) {
-			this.view = view;
-			this._view.init();
-		}
-	}, {
-		key: "pushCurrentNum",
-		value: function pushCurrentNum() {
-			this.input.push(this.currentNum * 10000);
-			this.currentNum = "";
-		}
-	}, {
-		key: "pushCurrentOper",
-		value: function pushCurrentOper() {
-			this.input.push(this.currentOper);
-		}
-	}, {
-		key: "timeForOperator",
-		value: function timeForOperator() {
-			return (this.currentNum || this.input.length) && this.currentNum !== ".";
-		}
-	}, {
-		key: "firstEntry",
-		value: function firstEntry() {
-			return this.input.length === 0 && this.isValidNumber(this.currentNum);
-		}
-	}, {
-		key: "secondEntry",
-		value: function secondEntry() {
-			return this.input.length === 2 && this.isValidNumber(this.currentNum);
-		}
-	}, {
-		key: "hasResult",
-		value: function hasResult() {
-			return this.input.length === 1 && typeof this.input[0] === "number";
-		}
-	}, {
-		key: "calculate",
-		value: function calculate(arr) {
-			if (arr.length === 3) {
-				this.currentNum = this.operations[arr[1]](arr[0], arr[2]);
-				this.input = [];
-				this.view.render(this.currentNum);
-				this.pushCurrentNum();
-			}
-		}
-	}, {
-		key: "isValidNumber",
-		value: function isValidNumber(num) {
-			return num !== "" && num !== ".";
-		}
-	}, {
-		key: "number",
-		value: function number(val) {
-			if (this.hasResult()) this.input = [];
-			this.currentNum += val;
-			this.view.render(this.currentNum);
-		}
-	}, {
-		key: "decimal",
-		value: function decimal() {
-			if (this.currentNum.indexOf(".") === -1) {
-				this.currentNum += ".";
-				this.view.render(this.currentNum);
-			}
-		}
-	}, {
-		key: "operator",
-		value: function operator(val) {
-			if (this.timeForOperator()) {
-				this.currentOper = val;
-				if (this.firstEntry() || this.secondEntry()) {
-					this.pushCurrentNum();
-					this.view.render(this.currentOper);
-					this.calculate(this.input);
-					this.pushCurrentOper();
-				} else if (this.hasResult()) {
-					this.pushCurrentOper();
-					this.view.render(this.currentOper);
-				}
-			}
-		}
-	}, {
-		key: "equals",
-		value: function equals() {
-			if (this.secondEntry()) {
-				this.pushCurrentNum();
-				this.calculate(this.input);
-			}
-		}
-	}, {
-		key: "clear",
-		value: function clear() {
-			this.currentNum = "";
-			this.view.render(0);
-		}
-	}, {
-		key: "clearAll",
-		value: function clearAll() {
-			this.currentNum = "";
-			this.currentOper = "";
-			this.input = [];
-			this.view.render(0);
-		}
-	}, {
-		key: "view",
-		get: function get() {
-			return this._view;
-		},
-		set: function set(view) {
-			this._view = view;
-		}
-	}]);
-
-	return Computer;
-}();
-
-exports.default = Computer;
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10063,38 +9900,159 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	return jQuery;
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module)))
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Calculator = function () {
+	function Calculator() {
+		_classCallCheck(this, Calculator);
+
+		this.firstNum = "";
+		this.secondNum = "";
+		this.operator = "";
+		this.operations = {
+			"+": function _(a, b) {
+				return (a * 10000 + b * 10000) / 10000;
+			},
+			"-": function _(a, b) {
+				return (a * 10000 - b * 10000) / 10000;
+			},
+			"*": function _(a, b) {
+				return a * 10000 * (b * 10000) / Math.pow(10, 8);
+			},
+			"/": function _(a, b) {
+				return a / b;
+			}
+		};
+	}
+
+	_createClass(Calculator, [{
+		key: "enterNumber",
+		value: function enterNumber(val) {
+			if (this.operator) {
+				this.secondNum += val;
+				return this.secondNum;
+			} else {
+				this.firstNum += val;
+				return this.firstNum;
+			}
+		}
+	}, {
+		key: "addDecimal",
+		value: function addDecimal() {
+			if (this.operator && this.secondNum.indexOf(".") === -1) {
+				this.secondNum += ".";
+				return this.secondNum;
+			} else if (!this.operator && this.firstNum.indexOf(".") === -1) {
+				this.firstNum += ".";
+				return this.firstNum;
+			} else {
+				return this.operator ? this.secondNum : this.firstNum;
+			}
+		}
+	}, {
+		key: "enterOperator",
+		value: function enterOperator(val) {
+			//Return early if we don't have a valid first value
+			if (this.firstNum === "" || this.firstNum === ".") {
+				return null;
+				//set operator value if one is not set and we already have a first number
+			} else if (!this.secondNum && !this.operator) {
+				this.operator = val;
+				return this.operator;
+				//if we already have first and second nums and an operator calculate a result first which will also
+				//		- set the first number to that result, 
+				//		- clear the secondnum
+				//then set the operator to the value supplied
+				//return the result of the calculation
+			} else if (this.secondNum !== "" && this.secondNum !== ".") {
+				var result = this.calculate();
+				this.operator = val;
+				return result;
+			} else {
+				return null;
+			}
+		}
+	}, {
+		key: "calculate",
+		value: function calculate() {
+			if (this.firstNum && this.firstNum !== "." && this.secondNum && this.secondNum !== "." && this.operator) {
+				this.firstNum = this.operations[this.operator](this.firstNum, this.secondNum).toString();
+				this.operator = "";
+				this.secondNum = "";
+				return this.firstNum;
+			}
+			return null;
+		}
+	}, {
+		key: "clear",
+		value: function clear() {
+			if (this.secondNum) {
+				this.secondNum = "";
+			} else if (this.operator) {
+				this.operator = "";
+			} else {
+				this.firstNum = "";
+			}
+			return 0;
+		}
+	}, {
+		key: "clearAll",
+		value: function clearAll() {
+			this.firstNum = "";
+			this.secondNum = "";
+			this.operator = "";
+			return 0;
+		}
+	}]);
+
+	return Calculator;
+}();
+
+exports.default = Calculator;
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
-__webpack_require__(2);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-var _computer = __webpack_require__(0);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _computer2 = _interopRequireDefault(_computer);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var Controller = function () {
+	function Controller(Calculator) {
+		_classCallCheck(this, Controller);
 
-$(document).ready(function () {
+		this.cacheDom();
+		this.bind();
+		this.render(0);
+		this.calculator = new Calculator();
+	}
 
-	var view = {
-		init: function init() {
-			this.cacheDom();
-			this.bind();
-			this.render(0);
-		},
-		cacheDom: function cacheDom() {
+	_createClass(Controller, [{
+		key: "cacheDom",
+		value: function cacheDom() {
 			this.$main = $(".main");
 			this.$int = this.$main.find(".int");
 			this.$decimal = this.$main.find("#decimal");
@@ -10103,39 +10061,82 @@ $(document).ready(function () {
 			this.$clear = this.$main.find(".clear");
 			this.$equal = this.$main.find(".equal");
 			this.$screen = this.$main.find(".screen");
-		},
-		bind: function bind() {
+		}
+	}, {
+		key: "bind",
+		value: function bind() {
+			var _this = this;
+
 			this.$int.click(function (e) {
-				return computer.number(e.target.innerText);
+				var number = _this.calculator.enterNumber(e.target.innerText);
+				number && _this.render(number);
 			});
 			this.$decimal.click(function () {
-				return computer.decimal();
+				var number = _this.calculator.addDecimal();
+				number && _this.render(number);
 			});
 			this.$oper.click(function (e) {
-				return computer.operator(e.target.innerText);
+				var operator = _this.calculator.enterOperator(e.target.innerText);
+				operator && _this.render(operator);
 			});
 			this.$equal.click(function () {
-				return computer.equals();
+				var result = _this.calculator.calculate();
+				result && _this.render(result);
 			});
 			this.$clear.click(function () {
-				return computer.clear();
+				var clear = _this.calculator.clear();
+				_this.render(clear);
 			});
 			this.$clearAll.click(function () {
-				return computer.clearAll();
+				var clear = _this.calculator.clearAll();
+				_this.render(clear);
 			});
-		},
-		render: function render(value) {
+		}
+	}, {
+		key: "render",
+		value: function render(value) {
 			this.$screen.html(value);
 		}
-	};
+	}]);
 
-	var computer = new _computer2.default();
-	computer.init(view);
-});
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+	return Controller;
+}();
+
+exports.default = Controller;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+__webpack_require__(3);
+
+var _calculator = __webpack_require__(1);
+
+var _calculator2 = _interopRequireDefault(_calculator);
+
+var _controller = __webpack_require__(2);
+
+var _controller2 = _interopRequireDefault(_controller);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+$(document).ready(function () {
+	new _controller2.default(_calculator2.default);
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
